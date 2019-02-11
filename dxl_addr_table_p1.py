@@ -41,7 +41,7 @@ PROTOCOL 1.0
 
     - 2. Packet ID: Dynamixel ID taking Instruction Packet
         * Normal ID: 0 ~ 253 (0x00 ~ 0xFD), total number 254
-        * Broadcast ID: 254 (0xFE), All Dynamixel
+        * Broadcast ID: 254 (0xFE), Allows all Dynamixel motors to operate Instruction Packet
 
     - 3. Length: Packet length, Data length of Instruction + Parameter + Checksum
         * Length = Parameter numbers (N) + 2
@@ -94,49 +94,82 @@ PROTOCOL 1.0
 
 """
 
-#========================================#
-#                 EEPROM                 #
-#========================================#
+#=======================================================#
+#                       EEPROM                          #
+#=======================================================#
 
-MODEL_NUMBER_L = 0      #Lowest byte of model number
-MODEL_NUMBER_H = 1      #Highest byte of model number
-FIRMWARE_VERSION = 2
-MOTOR_ID = 3
-BAUD_RATE = 4
-RETURN_DELAY_TIME = 0x05
-CW_ANGLE_LIMIT_L = 0x06
-CW_ANGLE_LIMIT_H = 0x07
-CCW_ANGLE_LIMIT_L = 0x08
-CCW_ANGLE_LIMIT_H = 0x09
-DRIVE_MODE = 0x0A
-HIGH_LIMIT_TEMP = 0x0B
-LOW_LIMIT_VOLTAGE = 0x0C
-HIGH_LIMIT_VOLTAGE = 0x0D
-MAX_TORQUE_L = 0x0E
-MAX_TORQUE_H = 0x0F
-STATUS_RETURN_LEVEL = 0x10
-ALARM_LED = 0x11
-ALARM_SHUTDOWN = 0x12
-MULTI_TURN_OFFSET_L = 0x14
-MULTI_TURN_OFFSET_H = 0x15
-RESOLUTION_DIVIDER = 0x16
-
-
+DXL_MODEL_NUMBER_L = 0          #Lowest byte of model number
+DXL_MODEL_NUMBER_H = 1          #Highest byte of model number
+DXL_FIRMWARE_VERSION = 2        #Information on the version of firmware
+DXL_MOTOR_ID = 3                #ID of Dynamixel
+DXL_BAUD_RATE = 4               #Baud Rate of Dynamixel
+DXL_RETURN_DELAY_TIME = 5       #Return Delay Time
+DXL_CW_ANGLE_LIMIT_L = 6        #Lowest byte of clockwise Angle Limit
+DXL_CW_ANGLE_LIMIT_H = 7        #Highest byte of clockwise Angle Limit
+DXL_CCW_ANGLE_LIMIT_L = 8       #Lowest byte of counterclockwise Angle Limit
+DXL_CCW_ANGLE_LIMIT_H = 9       #Highest byte of counterclockwise Angle Limit
+DXL_DRIVE_MODE = 10             #Dual Mode Setting
+DXL_HIGH_LIMIT_TEMP = 11        #Internal Limit Temperature
+DXL_LOW_LIMIT_VOLTAGE = 12      #Lowest Limit Voltage
+DXL_HIGH_LIMIT_VOLTAGE = 13     #Highest Limit Voltage
+DXL_MAX_TORQUE_L = 14           #Lowest byte of Max. Torque
+DXL_MAX_TORQUE_H = 15           #Highest byte of Max. Torque
+DXL_STATUS_RETURN_LEVEL = 16    #Status Return Level
+DXL_ALARM_LED = 17              #LED for Alarm
+DXL_ALARM_SHUTDOWN = 18         #Shutdown for Alarm
+DXL_MULTI_TURN_OFFSET_L = 20    #multi-turn offset least significant byte (LSB)
+DXL_MULTI_TURN_OFFSET_H = 21    #multi-turn offset most significant byte (MSB)
+DXL_RESOLUTION_DIVIDER = 22     #Resolution divider
 
 
 
+#=======================================================#
+#                       RAM                             #
+#=======================================================#
+DXL_TORQUE_ENABLE = 24          #Torque On/Off
+DXL_LED = 25                    #LED On/Off
+DXL_D_GAIN = 26                 #Derivative Gain
+DXL_I_GAIN = 27                 #Integral Gain
+DXL_P_GAIN = 28                 #Proportional Gain
+DXL_GOAL_POSITION_L = 30        #Lowest byte of Goal Position
+DXL_GOAL_POSITION_H = 31        #Highest byte of Goal Position
+DXL_MOVING_SPEED_L = 32         #Lowest byte of Moving Speed (Moving Velocity)
+DXL_MOVING_SPEED_H = 33         #Highest byte of Moving Speed (Moving Velocity)
+DXL_TORQUE_LIMIT_L = 34         #Lowest byte of Torque Limit (Goal Torque)
+DXL_TORQUE_LIMIT_H = 35         #Highest byte of Torque Limit (Goal Torque)
+DXL_PRESENT_POSITION_L = 36     #Lowest byte of Current Position (Present Velocity)
+DXL_PRESENT_POSITION_H = 37     #Highest byte of Current Position (Present Velocity)
+DXL_PRESENT_SPEED_L = 38        #Lowest byte of Current Speed
+DXL_PRESENT_SPEED_H = 39        #Highest byte of Current Speed
+DXL_PRESENT_LOAD_L = 40         #Lowest byte of Current Load
+DXL_PRESENT_LOAD_H = 41         #Highest byte of Current Load
+DXL_PRESENT_VOLTAGE = 42        #Current Voltage
+DXL_PRESENT_TEMPERATURE = 43    #Current Temperature
+DXL_REGISTERED = 44             #Means if Instruction is registered
+DXL_MOVING = 46                 #Means if there is any movement
+DXL_LOCK = 47                   #Locking EEPROM
+DXL_PUNCH_L = 48                #Lowest byte of Punch
+DXL_PUNCH_H = 49                #Highest byte of Punch
+DXL_CURRENT_L = 68              #Lowest byte of Consuming Current
+DXL_CURRENT_H = 69              #Highest byte of Consuming Current
+DXL_TORQUE_CONTROL_MODE_ENABLE = 70 #Torque control mode on/off
+DXL_GOAL_TORQUE_L = 71          #Lowest byte of goal torque value
+DXL_GOAL_TORQUE_H = 72          #Highest byte of goal torque value
+DXL_GOAL_ACCELERATION = 73      #Goal Acceleration
 
+#=======================================================#
+#                   INSTRUCTION PACKET                  #
+#=======================================================#
 
+DXL_PING = 0x01
+DXL_READ_DATA = 0x02
+DXL_WRITE_DATA = 0x03
+DXL_REG_WRITE = 0x04
+DXL_ACTION = 0x05
+DXL_RESET = 0x06
+DXL_REBOOT = 0x08
+DXL_SYNC_WRITE = 0x83
+DXL_BULK_READ = 0x92
 
-
-
-
-
-
-
-
-#========================================#
-#                   RAM                  #
-#========================================#
-
-
+#ID
+DXL_BROADCAST_ID = 0xFE
